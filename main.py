@@ -8,4 +8,14 @@ class Phone:
         self.color = color
 
 
+class PhoneStore:
+    def __init__(self, name: str):
+        self.name = name
+        self.store: PhoneSet = None
+
+
+class PhoneSet(MutableSet[Phone]):
+    pass
+
+
 
