@@ -15,7 +15,13 @@ class PhoneStore:
 
 
 class PhoneSet(MutableSet[Phone]):
-    pass
+    def __init__(self, phone_store: PhoneStore):
+        phone_store.store = self
+        self.elements = set()
 
+    def add(self, phone: Phone):
+        self.elements.add(phone)
 
+    def discard(self, phone: Phone):
+        self.elements.remove(phone)
 
