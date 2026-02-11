@@ -1,4 +1,4 @@
-from collections.abc import MutableSet
+from collections.abc import MutableSet, Iterable
 
 
 class Phone:
@@ -55,7 +55,7 @@ class PhoneSet(MutableSet[Phone]):
     def __str__(self):
         return "\n\n".join(str(i) for i in self.elements)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterable[Phone]:
         return iter(self.elements)
 
     def __contains__(self, item):
