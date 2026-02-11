@@ -28,14 +28,28 @@ class PhoneStore:
 
 
 class PhoneSet(MutableSet[Phone]):
-    def __init__(self, phone_store: PhoneStore):
-        phone_store.phone = self
+    def __init__(self, phone_store: PhoneStore): # тут мы передаём экземпляр магазина
+        if not isinstance(phone_store, PhoneStore):
+            raise TypeError("Указан не магазин телефонов!")
+        if phone_store.phone != None:
+            raise ValueError("Для указанного магазина уже существует набор телефонов!")
+
+        self.phone_store = phone_store # тут храним магазин
+        phone_store.phone = self  # тут устанавливается связь через ссылку, обращение к phone_store потом к phone на набор телефонов, это и есть наши phone_set_1....n, тут вообщем ссылка на множество моделей нашего телефона, которые есть в этом магазине.
         self.elements = set()
 
     def add(self, phone: Phone):
+        if not isinstance(phone, Phone):
+            raise TypeError("Добавляемый объект должен быть телефоном!")
+        if phone.phone_store != None:
+            raise ValueError(f"{phone} уже находится в другом магазине.")
+        phone.phone_store = self.phone_store # тут ссылка на магазин, телефон ссылается на свой магазин
         self.elements.add(phone)
 
     def discard(self, phone: Phone):
+        if phone not in self.elements:
+            raise ValueError(f"{phone} не существует в наборе.")
+        phone.phone_store = None
         self.elements.remove(phone)
 
     def __str__(self):
@@ -70,20 +84,24 @@ phone_set_1.add(phone_samsung_3)
 phone_set_1.discard(phone_samsung_3)
 print(phone_store_1)
 print(len(phone_set_1))
-print("-" * 200)
 
+print("-" * 200)
 
 phone_set_2 = PhoneSet(phone_store_2)
 phone_set_2.add(phone_apple_1)
 phone_set_2.add(phone_apple_2)
 phone_set_2.add(phone_apple_3)
 phone_set_2.discard(phone_apple_3)
-
-
 print(phone_store_2)
 print(len(phone_set_2))
 
 # it = iter(phone_set_2)
 # print(next(it))
 # print(next(it))
+
+if phone_apple_3 in phone_set_2:
+    print(True)
+else:
+    print(False)
+
 
