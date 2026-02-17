@@ -46,8 +46,10 @@
 #             print("декоратор начал работу с парметром функции")
 #             param_func()
 #             print("функция отработана")
+#             print("начало самой обрабюотки функции")
 #             result = func(*args, **kwargs)
-#             print("отработа сама функция в декораторе")
+#             print(result)
+#             print("отработана сама функция в декораторе")
 #             return result
 #         return wrapper
 #     return mydecorator
@@ -58,11 +60,11 @@
 #
 #
 # @parametr_decorators(hi_func)
-# def result(name, age):
-#     print(f"Я {name} результат выполнения всего декоратора, мне {age} лет")
+# def res(name, age):
+#     return f"Я {name} результат выполнения всего декоратора, мне {age} лет"
 #
 #
-# result("Nikita", 21)
+# res("Nikita", 21)
 
 
 # def decorator(func):
