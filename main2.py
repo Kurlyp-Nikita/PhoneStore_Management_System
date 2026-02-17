@@ -204,5 +204,35 @@
 # print(greet.calls)
 
 
+from functools import wraps
+import time
+
+
+def call_counter(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        wrapper.calls += 1
+        start = time.time()
+        result = func(*args, **kwargs)
+        end = time.time()
+        print(f"Функция {func.__name__} вызвана {wrapper.calls} раз"
+              f"время выполнения: {end - start} сек.")
+        return result
+    wrapper.calls = 0
+    return wrapper
+
+
+@call_counter
+def greet(name):
+    for i in range(100000000):
+        pass
+    return f"Hi, {name}"
+
+
+print(greet("Nikita"))
+print(greet("Alex"))
+print(greet("Max"))
+print(greet("Danila"))
+print(greet.calls)
 
 
