@@ -93,29 +93,116 @@
 # Возвращает результат
 
 
-from functools import wraps
+# from functools import wraps
+#
+# def logger(func):
+#     @wraps(func) # чтобы при проверке add.__name__ было add, а не на wrapper ссылалось
+#     def wrapper(*args, **kwargs):
+#         print(f"Вызов функции: {func.__name__}")
+#         print(f"Аргументы: {args}, {kwargs}")
+#         result = func(*args, **kwargs)
+#         print(f"Результат: {result}")
+#         return result
+#     return wrapper
+#
+#
+#
+# @logger
+# def add(a, b):
+#     ''' С @wraps(func) видны док стринги, без не видны, это как пример '''
+#     return a + b
+#
+#
+# print(add.__name__)
+# print(add.__doc__)
+# # help(add)
+#
+# add(1, 2)
 
-def logger(func):
-    @wraps(func) # чтобы при проверке add.__name__ было add, а не на wrapper ссылалось
-    def wrapper(*args, **kwargs):
-        print(f"Вызов функции: {func.__name__}")
-        print(f"Аргументы: {args}, {kwargs}")
-        result = func(*args, **kwargs)
-        print(f"Результат: {result}")
-        return result
-    return wrapper
+
+# # Задача: Декоратор-счётчик вызовов
+# # Нужно:
+# # Создать декоратор call_counter, который:
+# # Считает, сколько раз была вызвана функция
+# # При каждом вызове выводит:
+# # Функция <имя> вызвана N раз
+# # Возвращает результат функции
+# # Работает с аргументами (*args, **kwargs)
+# # Использует @wraps(func)
+#
+#
+# from functools import wraps
+#
+#
+# def call_counter(func):
+#     count = 0
+#     @wraps(func)
+#     def wrapper(*args, **kwargs):
+#         nonlocal count
+#         count += 1
+#         result = func(*args, **kwargs)
+#         print(f"Функция {func.__name__} вызвана {count} раз")
+#         return result
+#     return wrapper
+#
+#
+# @call_counter
+# def greet(name):
+#     return f"Привет, {name}"
+#
+#
+# greet("Nikita")
+# greet("Nikita")
+# greet("Nikita")
+# greet("Nikita")
+#
+# print(greet("Alex"))
+
+
+# Задача: Декоратор-счётчик с атрибутом
+# Сделать декоратор call_counter, который:
+# 1 При каждом вызове функции увеличивает счётчик вызовов
+# 2 Хранит количество вызовов в атрибуте функции, например: func.calls
+# 3 Выводит сообщение при вызове функции: "Функция <имя> вызвана N раз"
+# 4 Возвращает результат оригинальной функции
+# 5 Работает с любым количеством аргументов (*args, **kwargs)
+#
+# Пример использования:
+# @call_counter
+# def greet(name):
+#     return f"Привет, {name}"
+#
+# greet("Nikita")  # "Функция greet вызвана 1 раз"
+# greet("Alex")    # "Функция greet вызвана 2 раз"
+# greet("John")    # "Функция greet вызвана 3 раз"
+#
+# print(greet.calls)  # 3
+
+
+# from functools import wraps
+#
+#
+# def call_counter(func):
+#     @wraps(func)
+#     def wrapper(*args, **kwargs):
+#         wrapper.calls += 1
+#         result = func(*args, **kwargs)
+#         print(f"Функция {func.__name__} вызвана {wrapper.calls} раз")
+#         return result
+#     wrapper.calls = 0
+#     return wrapper
+#
+#
+# @call_counter
+# def greet(name):
+#     return f"Привет, {name}"
+#
+#
+# print(greet("Nikita"))
+# print(greet("Alex"))
+# print(greet("Max"))
+# print(greet.calls)
 
 
 
-@logger
-def add(a, b):
-    ''' С @wraps(func) видны док стринги, без не видны, это как пример '''
-    return a + b
-
-
-print(add.__name__)
-print(add.__doc__)
-# help(add)
-
-add(1, 2)
 
